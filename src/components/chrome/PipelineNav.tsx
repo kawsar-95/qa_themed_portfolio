@@ -57,8 +57,11 @@ export default function PipelineNav() {
     <>
       {/* ---- Top bar ---- */}
       {/* mobile: gradient scrim so scrolling text never collides with the logo;
-          md+: blend mode, content rarely reaches the bar there */}
-      <header className="fixed inset-x-0 top-0 z-[100] flex items-center justify-between bg-gradient-to-b from-void via-void/85 to-transparent px-5 pb-6 pt-4 md:bg-none md:px-8 md:pb-4 md:mix-blend-difference">
+          md+: blend mode, content rarely reaches the bar there.
+          Light mode drops the blend and keeps the scrim at every width —
+          see `.site-header` in globals.css for why difference-blending
+          can't work on a white page. */}
+      <header className="site-header fixed inset-x-0 top-0 z-[100] flex items-center justify-between bg-gradient-to-b from-void via-void/85 to-transparent px-5 pb-6 pt-4 md:bg-none md:px-8 md:pb-4 md:mix-blend-difference">
         <button
           onClick={() => goTo("spec")}
           data-cursor="TOP"

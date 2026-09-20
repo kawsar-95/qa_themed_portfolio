@@ -23,16 +23,23 @@ const CHANNELS = [
  */
 export default function Contact() {
   const { theme } = useTheme();
+  const isLight = theme === "light";
   return (
     <section
       id="signoff"
       className="relative flex min-h-[100svh] flex-col overflow-hidden"
     >
-      {/* Gargantua hangs behind everything */}
-      <div className="absolute inset-0">
-        <Gargantua theme={theme} />
-      </div>
-      <div className="contact-vignette pointer-events-none absolute inset-0" />
+      {/* Gargantua hangs behind everything — dark mode only. On paper the
+          black hole has nothing to glow against, so light mode skips the
+          canvas entirely rather than rendering an invisible one. */}
+      {!isLight && (
+        <>
+          <div className="absolute inset-0">
+            <Gargantua theme={theme} />
+          </div>
+          <div className="contact-vignette pointer-events-none absolute inset-0" />
+        </>
+      )}
 
       <div className="relative z-10 flex flex-1 flex-col items-center justify-center px-5 py-36 text-center">
         <motion.div

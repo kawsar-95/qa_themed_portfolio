@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 export default function Interlude() {
   return (
     <div className="relative flex min-h-[50vh] items-center justify-center overflow-hidden px-5 py-28">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(232,163,61,0.05),transparent_60%)]" />
+      <div className="interlude-glow pointer-events-none absolute inset-0" />
       <div className="text-center">
         <motion.div
           initial={{ opacity: 0, letterSpacing: "0.6em" }}

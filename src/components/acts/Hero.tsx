@@ -11,12 +11,24 @@ const Tesseract = dynamic(() => import("@/components/three/Tesseract"), {
 });
 
 /**
- * ACT I — SPEC. The tesseract hangs in the void; the name descends
- * like a title over black. Letterbox bars hold the 2.39:1 frame.
- * Reveals are CSS-driven off the `booted` class — zero hydration risk.
+ * ACT I — SPEC.
+ *
+ * Dark: the tesseract hangs in the void; the name descends like a title
+ * over black, letterbox bars holding the 2.39:1 frame.
+ *
+ * Light: none of that. The WebGL scene, the vignette and the letterbox
+ * are all devices for making text legible over a dark moving image — on
+ * white paper there is no image and nothing to fight, so light mode
+ * renders a plain centred masthead instead: label, name, one line of
+ * what and where, two buttons. The canvas is skipped rather than hidden,
+ * so light mode never pays for a Three.js scene it doesn't show.
+ *
+ * Reveals in both modes are CSS-driven off the `booted` class — zero
+ * hydration risk.
  */
 export default function Hero({ booted }: { booted: boolean }) {
   const { theme } = useTheme();
+  const isLight = theme === "light";
   const [letterboxed, setLetterboxed] = useState(true);
 
   useEffect(() => {
@@ -27,9 +39,83 @@ export default function Hero({ booted }: { booted: boolean }) {
   }, []);
 
   useEffect(() => {
-    document.documentElement.classList.toggle("letterboxed", letterboxed && booted);
+    // bars are a dark-mode device; never let them latch on in light
+    document.documentElement.classList.toggle("letterboxed", letterboxed && booted && !isLight);
     return () => document.documentElement.classList.remove("letterboxed");
-  }, [letterboxed, booted]);
+  }, [letterboxed, booted, isLight]);
+
+  if (isLight) {
+    return (
+      <section
+        id="spec"
+        className={`relative flex min-h-[92svh] flex-col items-center justify-center overflow-hidden px-5 py-28 ${
+          booted ? "booted" : ""
+        }`}
+      >
+        {/* the page's only piece of depth — a faint wash off the top edge */}
+        <div className="hero-vignette pointer-events-none absolute inset-0" />
+
+        <div className="relative z-10 flex w-full max-w-2xl flex-col items-center text-center">
+          <div className="boot-fade" style={{ transitionDelay: "0.25s" }}>
+            <span className="inline-flex items-center gap-2 rounded-full border border-faint bg-steel px-3 py-1 font-mono text-[10px] uppercase tracking-[0.12em] text-dust md:text-[11px]">
+              <span className="inline-block h-1.5 w-1.5 rounded-full bg-go" />
+              {IDENTITY.role} · {IDENTITY.location}
+            </span>
+          </div>
+
+          <h1 className="display-xl mt-7 text-[clamp(2.75rem,9vw,5.25rem)] text-bone">
+            <span className="line-mask">
+              <span className="line-inner" style={{ transitionDelay: "0.4s" }}>
+                {IDENTITY.name}
+              </span>
+            </span>
+          </h1>
+
+          <p
+            className="boot-fade mt-5 max-w-xl text-base leading-relaxed text-dust md:text-lg"
+            style={{ transitionDelay: "0.6s" }}
+          >
+            {IDENTITY.subRole}
+          </p>
+
+          <p
+            className="boot-fade mt-3 font-mono text-[11px] tracking-[0.14em] text-dust md:text-xs"
+            style={{ transitionDelay: "0.72s" }}
+          >
+            I break things before users do.
+          </p>
+
+          <div
+            className="boot-fade mt-10 flex flex-col items-center gap-3 sm:flex-row"
+            style={{ transitionDelay: "0.85s" }}
+          >
+            <a
+              href={`mailto:${IDENTITY.email}?subject=Let%27s%20talk%20QA`}
+              data-cursor="SEND"
+              className="inline-flex items-center gap-2 rounded-md bg-bone px-6 py-3 text-sm font-medium text-void transition-opacity duration-200 hover:opacity-90"
+            >
+              Get in touch
+              <span aria-hidden>→</span>
+            </a>
+            <a
+              href="#report"
+              data-cursor="OPEN"
+              className="inline-flex items-center gap-2 rounded-md border border-faint px-6 py-3 text-sm font-medium text-bone transition-colors duration-200 hover:bg-steel"
+            >
+              View the work
+            </a>
+          </div>
+        </div>
+
+        <div
+          className="boot-fade absolute bottom-10 left-0 right-0 flex justify-center"
+          style={{ transitionDelay: "1.1s" }}
+        >
+          <span className="kicker">SCROLL TO EXECUTE</span>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section

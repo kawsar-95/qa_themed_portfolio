@@ -52,25 +52,46 @@
   }
 }
 
+/* Dark-mode default for the split token below. Declared *before* the
+   light block on purpose: `:root` and `[data-theme="light"]` both match
+   <html> with identical specificity, so whichever comes last wins. */
+:root {
+  --color-faint-text: var(--color-faint);
+}
+
 /* ---------- Light theme ---------- */
 /* Toggled via [data-theme] on <html> — see ThemeProvider.tsx. Every
    Tailwind utility built from a --color-* token (including opacity
    modifiers like bg-bone/5, which Tailwind v4 compiles to color-mix()
    against the variable) picks these up automatically; only the
-   hardcoded literal colors below need their own light-mode rules. */
+   hardcoded literal colors below need their own light-mode rules.
+
+   Light mode is deliberately NOT a tinted mirror of the dark theme —
+   it is a plain document: white paper, cool-gray neutrals, one text
+   accent. The brand amber has no light counterpart, so amber/signal/
+   ember all collapse onto the neutral ramp; every `text-amber` in the
+   tree turns near-black here without touching a single component.
+   `go` and `danger` stay chromatic because they are the only tokens
+   carrying meaning (passed / failed) rather than mood. */
 [data-theme="light"] {
-  --color-void: #f5f3ec;
-  --color-carbon: #ece9df;
-  --color-steel: #eae7dc;
-  --color-bone: #17181b;
-  --color-dust: #6b6558;
-  --color-faint: #d8d3c3;
-  --color-amber: #9c5a1a;
-  --color-signal: #c17a2e;
-  --color-ember: #8a3f18;
-  --color-go: #0e8a5f;
-  --color-invert: #0e7490;
+  --color-void: #ffffff;
+  --color-carbon: #f9fafb;
+  --color-steel: #f3f4f6;
+  --color-bone: #030712;
+  --color-dust: #6b7280;
+  --color-faint: #e5e7eb;
+  --color-amber: #111827;
+  --color-signal: #374151;
+  --color-ember: #4b5563;
+  --color-go: #047857;
+  --color-invert: #374151;
   --color-danger: #dc2626;
+
+  /* --color-faint doubles as hairline-border AND tertiary-text colour.
+     Those diverge on white — #e5e7eb is a correct border and invisible
+     type — so text gets its own var and collapses onto `dust`. Two
+     readable text tiers beats three where the third can't be read. */
+  --color-faint-text: #6b7280;
 }
 
 /* A dark "island" for terminal-styled chrome — real terminals stay dark
@@ -89,6 +110,7 @@
   --color-go: #34d399;
   --color-invert: #67e8f9;
   --color-danger: #ef4444;
+  --color-faint-text: #615d50;
 }
 
 /* Hero title-text shadow: a dark halo on dark mode, a light halo on
@@ -192,12 +214,14 @@ body {
     rgba(6, 6, 7, 0.85) 100%
   );
 }
+/* Light mode never mounts the WebGL scene (see Hero.tsx), so there is
+   nothing to fade out — the layer is reused as the one piece of depth
+   the page keeps: a faint gray wash bleeding down from the top edge. */
 [data-theme="light"] .hero-vignette {
   background: radial-gradient(
-    ellipse at center,
-    rgba(245, 243, 236, 0.32) 0%,
-    rgba(245, 243, 236, 0.55) 45%,
-    rgba(245, 243, 236, 0.9) 100%
+    ellipse 80% 55% at 50% 0%,
+    var(--color-steel) 0%,
+    transparent 70%
   );
 }
 
@@ -205,7 +229,7 @@ body {
   background: radial-gradient(ellipse at center, transparent 25%, rgba(6, 6, 7, 0.8) 100%);
 }
 [data-theme="light"] .contact-vignette {
-  background: radial-gradient(ellipse at center, transparent 25%, rgba(245, 243, 236, 0.85) 100%);
+  background: none;
 }
 
 /* ---------- Type utilities ---------- */
@@ -230,7 +254,7 @@ body {
   -webkit-text-stroke: 1px rgba(232, 230, 225, 0.34);
 }
 [data-theme="light"] .text-outline {
-  -webkit-text-stroke-color: rgba(23, 24, 27, 0.4);
+  -webkit-text-stroke-color: rgba(3, 7, 18, 0.28);
 }
 
 .text-outline-amber {
@@ -238,7 +262,7 @@ body {
   -webkit-text-stroke: 1px rgba(232, 163, 61, 0.55);
 }
 [data-theme="light"] .text-outline-amber {
-  -webkit-text-stroke-color: rgba(156, 90, 26, 0.6);
+  -webkit-text-stroke-color: rgba(3, 7, 18, 0.28);
 }
 
 .glow-amber {
@@ -347,20 +371,20 @@ body {
   opacity: 1;
 }
 
+/* Flat bordered card — no gradient, no lift, no cursor-tracked glow.
+   Hover just darkens the hairline, the way the reference does it. */
 [data-theme="light"] .artifact {
-  background: linear-gradient(160deg, rgba(255, 255, 255, 0.92), rgba(236, 233, 223, 0.96));
-  border-color: rgba(23, 24, 27, 0.12);
-  box-shadow: 0 12px 32px rgba(23, 24, 27, 0.08);
+  background: var(--color-void);
+  border-color: var(--color-faint);
+  border-radius: 0.5rem;
+  box-shadow: none;
 }
 [data-theme="light"] .artifact:hover {
-  border-color: rgba(156, 90, 26, 0.45);
+  border-color: var(--color-bone);
+  transform: none;
 }
 [data-theme="light"] .artifact::before {
-  background: radial-gradient(
-    600px circle at var(--mx, 50%) var(--my, 50%),
-    rgba(156, 90, 26, 0.1),
-    transparent 45%
-  );
+  display: none;
 }
 
 /* LIVE systems glow green instead of amber — production has its own color. */
@@ -375,14 +399,7 @@ body {
   );
 }
 [data-theme="light"] .artifact-live:hover {
-  border-color: rgba(14, 138, 95, 0.5);
-}
-[data-theme="light"] .artifact-live::before {
-  background: radial-gradient(
-    600px circle at var(--mx, 50%) var(--my, 50%),
-    rgba(14, 138, 95, 0.12),
-    transparent 45%
-  );
+  border-color: var(--color-go);
 }
 
 /* ---------- Pipeline gate ---------- */
@@ -470,4 +487,86 @@ body {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* ------------------------------------------------------------------ */
+/*  LIGHT MODE — strip the cinema                                      */
+/*  The dark theme is a film: grain, letterbox bars, vignette, neon     */
+/*  bloom, cursor-tracked glows. None of that survives on white paper  */
+/*  — it reads as dirt and noise rather than atmosphere. Light mode is */
+/*  a document, so every atmospheric layer is switched off here rather */
+/*  than restyled, and the components never learn about it.            */
+/* ------------------------------------------------------------------ */
+
+/* Not opacity:0 — display:none also stops the grain animation from
+   repainting a full-viewport layer 60×/s for no visible reason. */
+[data-theme="light"] .film-grain,
+[data-theme="light"] .vignette,
+[data-theme="light"] .letterbox-bar {
+  display: none;
+}
+
+/* Tertiary type: see --color-faint-text above. The terminal island
+   re-pins the var, so dim text inside it stays on the dark ramp. */
+[data-theme="light"] .text-faint {
+  color: var(--color-faint-text);
+}
+
+/* The terminal stays dark, but it sits on paper now: soften it to a
+   plain raised panel instead of an amber-ringed CRT bleeding light. */
+[data-theme="light"] .term-shadow {
+  border-radius: 0.5rem;
+  box-shadow:
+    0 1px 2px rgba(3, 7, 18, 0.08),
+    0 12px 28px rgba(3, 7, 18, 0.1);
+}
+
+/* Mono micro-labels: 0.42em tracking is a title-card effect. Pulled in
+   to a normal uppercase label so it reads as an eyebrow, not a poster. */
+[data-theme="light"] .kicker {
+  letter-spacing: 0.14em;
+}
+
+/* Metric chips become the reference's rounded pills. */
+[data-theme="light"] .badge {
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+/* 4px cinematic hairline -> a scrollbar you can actually grab. */
+[data-theme="light"] ::-webkit-scrollbar {
+  width: 8px;
+}
+[data-theme="light"] ::-webkit-scrollbar-track {
+  background: transparent;
+}
+[data-theme="light"] ::-webkit-scrollbar-thumb {
+  background: var(--color-faint);
+  border-radius: 999px;
+}
+[data-theme="light"] ::-webkit-scrollbar-thumb:hover {
+  background: var(--color-dust);
+}
+
+/* Interlude backdrop — an amber haze in the dark, nothing on paper. */
+.interlude-glow {
+  background: radial-gradient(ellipse at center, rgba(232, 163, 61, 0.05), transparent 60%);
+}
+[data-theme="light"] .interlude-glow {
+  background: none;
+}
+
+/* The top bar difference-blends on md+ so the logo inverts itself against
+   whatever the WebGL scene is doing behind it. On white that subtraction
+   lands on near-white and the logo disappears — and there is no moving
+   image to invert against anyway, so light mode blends normally and keeps
+   the scrim at every width instead of only on mobile. */
+[data-theme="light"] .site-header {
+  mix-blend-mode: normal;
+  background-image: linear-gradient(
+    to bottom,
+    var(--color-void),
+    color-mix(in srgb, var(--color-void) 85%, transparent) 55%,
+    transparent
+  );
 }

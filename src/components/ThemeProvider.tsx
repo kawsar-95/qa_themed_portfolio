@@ -20,7 +20,7 @@ function subscribe(callback: () => void) {
   return () => listeners.delete(callback);
 }
 
-const THEME_COLOR: Record<Theme, string> = { dark: "#060607", light: "#f5f4ef" };
+const THEME_COLOR: Record<Theme, string> = { dark: "#060607", light: "#ffffff" };
 
 /** Force the browser chrome color to match, overriding the static
  *  prefers-color-scheme meta tags once the visitor picks a theme by hand. */
