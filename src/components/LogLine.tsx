@@ -4,9 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import { useInView } from "framer-motion";
 
 /**
- * LogLine — the act epigraph. When it scrolls into view it types itself
- * out like a console entry behind an amber rail, then leaves a blinking
- * block cursor. Honors prefers-reduced-motion by printing instantly.
+ * LogLine — the act epigraph. Types itself when scrolled into view,
+ * then leaves a blinking block cursor. Honors prefers-reduced-motion.
  */
 export default function LogLine({
   text,
@@ -24,7 +23,6 @@ export default function LogLine({
   const [count, setCount] = useState(0);
   const done = count >= text.length;
 
-  /* reduced motion: print the whole line at once */
   useEffect(() => {
     if (!inView) return;
     if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -32,7 +30,6 @@ export default function LogLine({
     return () => cancelAnimationFrame(raf);
   }, [inView, text]);
 
-  /* self-perpetuating typewriter: each tick schedules the next */
   useEffect(() => {
     if (!inView || done) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -44,18 +41,14 @@ export default function LogLine({
   }, [inView, count, done, text, speed, startDelay]);
 
   return (
-    <div ref={ref} className={`flex gap-3 ${className}`}>
-      <span aria-hidden className="w-[2px] shrink-0 bg-amber/40" />
-      <p className="font-mono text-xs leading-relaxed tracking-wider text-dust md:text-sm">
-        <span className="text-amber">{"> "}</span>
-        {text.slice(0, count)}
-        <span
-          aria-hidden
-          className={`ml-0.5 inline-block h-[0.95em] w-[0.5em] translate-y-[0.12em] ${
-            !inView ? "opacity-0" : done ? "animate-blink bg-amber/80" : "bg-amber/80"
-          }`}
-        />
-      </p>
-    </div>
+    <p ref={ref} className={`text-sm leading-relaxed text-dust md:text-base ${className}`}>
+      {text.slice(0, count)}
+      <span
+        aria-hidden
+        className={`ml-0.5 inline-block h-[0.95em] w-[0.5em] translate-y-[0.12em] align-baseline ${
+          !inView ? "opacity-0" : done ? "animate-blink bg-amber/80" : "bg-amber/80"
+        }`}
+      />
+    </p>
   );
 }

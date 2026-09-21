@@ -8,7 +8,7 @@ const TONE_BG: Record<string, string> = {
 
 export type StatusTone = "go" | "amber" | "danger" | "invert" | "dust";
 
-/** Shared pulsing/static status dot — the "LIVE"/"NOMINAL"/"CONNECTED" marker used across sections. */
+/** Status dot — `pulse` opts into a soft breathing animation. */
 export default function StatusDot({
   tone,
   pulse = false,
@@ -20,7 +20,9 @@ export default function StatusDot({
 }) {
   return (
     <span
-      className={`h-1.5 w-1.5 rounded-full ${TONE_BG[tone]} ${pulse ? "animate-pulse-soft" : ""} ${className}`}
+      className={`inline-block h-1.5 w-1.5 rounded-full ${TONE_BG[tone]} ${
+        pulse ? "animate-pulse-soft" : ""
+      } ${className}`}
     />
   );
 }

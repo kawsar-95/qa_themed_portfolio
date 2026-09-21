@@ -4,8 +4,8 @@ import { motion } from "framer-motion";
 import LogLine from "@/components/LogLine";
 
 /**
- * Act title card — the Nolan chapter cut.
- * A mono kicker, an immense display word, and a one-line log entry.
+ * Act title card — small eyebrow, display heading, one-line log entry.
+ * Subtle scroll reveal on heading; the log line types itself.
  */
 export default function SectionTitle({
   act,
@@ -19,37 +19,34 @@ export default function SectionTitle({
   align?: "left" | "center";
 }) {
   return (
-    <div className={`mb-16 md:mb-24 ${align === "center" ? "text-center" : ""}`}>
+    <div className={`mb-12 md:mb-16 ${align === "center" ? "text-center" : ""}`}>
       <motion.div
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
+        initial={{ opacity: 0, y: 8 }}
+        whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-80px" }}
-        transition={{ duration: 0.8 }}
-        className={`mb-4 flex items-center gap-4 ${align === "center" ? "justify-center" : ""}`}
+        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+        className={`mb-3 flex items-center gap-3 text-xs text-dust ${
+          align === "center" ? "justify-center" : ""
+        }`}
       >
-        <span className="kicker text-amber">{act}</span>
-        <span className="h-px w-16 bg-faint" />
-        <span className="kicker">STAGE — {title}</span>
+        <span>{act}</span>
+        <span className="h-px w-10 bg-faint" />
+        <span>{title}</span>
       </motion.div>
 
-      <motion.div
-        className="overflow-hidden"
-        initial="hidden"
-        whileInView="visible"
+      <motion.h2
+        initial={{ opacity: 0, y: 12 }}
+        whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-80px" }}
+        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        className="display-xl text-[clamp(2.25rem,5vw,3.5rem)] text-bone"
       >
-        <motion.h2
-          variants={{ hidden: { y: "110%" }, visible: { y: 0 } }}
-          transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-          className="display-xl text-[clamp(3.5rem,10vw,9rem)] text-bone"
-        >
-          {title}
-        </motion.h2>
-      </motion.div>
+        {title}
+      </motion.h2>
 
       <LogLine
         text={log}
-        className={`mt-6 max-w-xl ${align === "center" ? "mx-auto justify-center" : ""}`}
+        className={`mt-4 max-w-xl ${align === "center" ? "mx-auto justify-center" : ""}`}
       />
     </div>
   );

@@ -2,27 +2,22 @@
 
 import { motion } from "framer-motion";
 import SectionTitle from "@/components/SectionTitle";
-import StatusDot from "@/components/StatusDot";
 import ToolIcon, { slugifyTool } from "@/components/ToolIcon";
-import { MISSIONS, type Mission } from "@/lib/data";
+import { MISSIONS } from "@/lib/data";
 
-const TONE_STYLES: Record<
-  Mission["envTone"],
-  { text: string; dot: "go" | "amber" | "invert" | "dust"; border: string }
-> = {
-  prod: { text: "text-go", dot: "go", border: "border-go/40" },
-  stage: { text: "text-amber", dot: "amber", border: "border-amber/40" },
-  cert: { text: "text-invert", dot: "invert", border: "border-invert/40" },
-  dev: { text: "text-dust", dot: "dust", border: "border-dust/40" },
+const TONE_TEXT: Record<string, string> = {
+  prod: "text-go",
+  stage: "text-amber",
+  cert: "text-invert",
+  dev: "text-dust",
 };
 
 /**
- * ACT IV — RUN. A career is a series of test runs across environments:
- * academy → sandbox → staging → production.
+ * ACT IV — RUN. A career as a series of test runs.
  */
 export default function Experience() {
   return (
-    <section id="run" className="relative px-5 py-32 md:px-12 md:py-44 lg:px-24">
+    <section id="run" className="relative px-5 py-20 md:px-12 md:py-28 lg:px-24">
       <SectionTitle
         act="ACT IV"
         title="RUN"
@@ -31,78 +26,59 @@ export default function Experience() {
 
       <div className="relative mx-auto max-w-5xl">
         {/* the rail */}
-        <motion.div
-          initial={{ scaleY: 0 }}
-          whileInView={{ scaleY: 1 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 1.6, ease: [0.22, 1, 0.36, 1] }}
-          className="absolute bottom-0 left-[7px] top-2 w-px origin-top bg-gradient-to-b from-go via-amber to-faint md:left-[9px]"
-        />
+        <div className="absolute bottom-0 left-[7px] top-2 w-px bg-faint md:left-[9px]" />
 
-        <div className="space-y-20">
+        <div className="space-y-16">
           {MISSIONS.map((m, i) => {
-            const tone = TONE_STYLES[m.envTone];
+            const tone = TONE_TEXT[m.envTone];
             const featured = m.log.length > 0;
             return (
               <motion.article
                 key={m.role + m.org}
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-80px" }}
-                transition={{ duration: 0.8, delay: 0.05 * i, ease: [0.22, 1, 0.36, 1] }}
-                className="relative pl-10 md:pl-16"
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{ duration: 0.5, delay: 0.05 * i, ease: [0.22, 1, 0.36, 1] }}
+                className="relative pl-8 md:pl-12"
               >
                 {/* node */}
-                <StatusDot
-                  tone={tone.dot}
-                  pulse={m.envTone === "prod"}
-                  className="absolute left-0 top-2 !h-[15px] !w-[15px] border-2 border-void"
+                <span
+                  className={`absolute left-0 top-2.5 h-2 w-2 border border-void bg-current ${tone}`}
                 />
 
-                <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-                  <span
-                    className={`border px-2.5 py-1 font-mono text-[9px] tracking-[0.3em] ${tone.text} ${tone.border}`}
-                  >
-                    {m.env}
-                  </span>
-                  <span className="font-mono text-[10px] tracking-[0.25em] text-faint">
-                    {m.period}
-                  </span>
+                <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-faint">
+                  <span className={`font-mono ${tone}`}>{m.env}</span>
+                  <span>·</span>
+                  <span className="font-mono">{m.period}</span>
                 </div>
 
-                <h3 className="display-xl mt-4 text-3xl text-bone md:text-5xl">
+                <h3 className="display-xl mt-3 text-2xl text-bone md:text-3xl">
                   {m.role}
                 </h3>
-                <div className="mt-1 font-mono text-xs tracking-[0.25em] text-amber md:text-sm">
+                <div className="mt-1 text-sm text-dust md:text-base">
                   @ {m.org}
                 </div>
 
-                <p className="mt-4 max-w-2xl text-sm font-light leading-relaxed text-bone/75 md:text-base">
+                <p className="mt-3 max-w-2xl text-sm font-light leading-relaxed text-bone/75 md:text-base">
                   {m.brief}
                 </p>
 
                 {featured && (
-                  <ul className="mt-6 space-y-2.5 border-l border-faint/40 pl-5">
+                  <ul className="mt-5 space-y-2 border-l border-faint pl-4 text-sm text-dust">
                     {m.log.map((entry) => (
-                      <li
-                        key={entry.slice(0, 40)}
-                        className="font-mono text-[11px] leading-relaxed text-dust md:text-xs"
-                      >
-                        <span className={`mr-2 ${tone.text}`}>▸</span>
-                        {entry}
-                      </li>
+                      <li key={entry.slice(0, 40)}>{entry}</li>
                     ))}
                   </ul>
                 )}
 
                 {m.tools && m.tools.length > 0 && (
-                  <div className="mt-5 flex flex-wrap gap-2 pl-5">
+                  <div className="mt-4 flex flex-wrap gap-2 pl-4">
                     {m.tools.map((t) => {
                       const slug = slugifyTool(t);
                       return (
                         <span
                           key={t}
-                          className="flex items-center gap-1.5 border border-bone/10 px-2 py-0.5 font-mono text-[9px] tracking-wider text-dust"
+                          className="flex items-center gap-1.5 border border-faint px-2 py-0.5 font-mono text-xs text-dust"
                         >
                           {slug && <ToolIcon tool={slug} size={11} />}
                           {t}

@@ -11,7 +11,7 @@ export const IDENTITY = {
   location: "DHAKA, BANGLADESH",
   coordinates: "23.8103° N / 90.4125° E",
   email: "nuruddinkawsar1995@gmail.com",
-  phone: "+880 186 045 8130",
+  phone: "+880 **** 8130",
   github: "https://github.com/kawsar-95",
   linkedin: "https://www.linkedin.com/in/nuruddin-kawsar-3b5152279/",
   site: "https://nuruddinkawsar.me/",
@@ -125,7 +125,7 @@ export const MISSIONS: Mission[] = [
     brief:
       "Leading QA for an HRIS platform spanning web, mobile and API — built the process, the team, and the release gate from scratch.",
     log: [
-      "Leads a 4-person QA team across web, mobile and API surfaces on a weekly release cadence",
+      "Leads a QA team across web, mobile and API surfaces on a weekly release cadence",
       "Built the QA process from zero — module ownership, regression coverage, and a UAT gate requiring joint PM + QA sign-off before release",
       "Automates mobile flows for the Flutter app with Maestro, and API workflows with Postman",
       "Maintains multi-repo GitHub Actions pipelines — regression and smoke suites run on every build",

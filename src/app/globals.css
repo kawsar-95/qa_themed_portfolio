@@ -1,12 +1,13 @@
 @import "tailwindcss";
 
 @theme {
-  --color-void: #060607;
-  --color-carbon: #0c0d10;
-  --color-steel: #14161a;
+  /* Dark mode (default): a flat dark document. */
+  --color-void: #0c0d10;
+  --color-carbon: #14161a;
+  --color-steel: #1c1e22;
   --color-bone: #e8e6e1;
   --color-dust: #9f9a8c;
-  --color-faint: #615d50;
+  --color-faint: #3a3d44;
   --color-amber: #e8a33d;
   --color-signal: #ffb454;
   --color-ember: #c75b26;
@@ -18,61 +19,16 @@
   --font-body: var(--font-ubuntu), sans-serif;
   --font-mono: var(--font-operator-mono), monospace;
 
-  --animate-marquee: marquee 40s linear infinite;
-  --animate-flicker: flicker 4s linear infinite;
+  /* Motion kept minimal: terminal blink only. */
   --animate-blink: blink 1.06s step-end infinite;
-  --animate-scan: scan 8s linear infinite;
-  --animate-spin-slow: spin 14s linear infinite;
-  --animate-pulse-soft: pulseSoft 3.2s ease-in-out infinite;
 
-  @keyframes marquee {
-    from { transform: translateX(0); }
-    to { transform: translateX(-50%); }
-  }
-  @keyframes flicker {
-    0%, 100% { opacity: 1; }
-    3% { opacity: 0.82; }
-    6% { opacity: 1; }
-    42% { opacity: 0.94; }
-    43% { opacity: 1; }
-    78% { opacity: 0.9; }
-    79% { opacity: 1; }
-  }
   @keyframes blink {
     0%, 100% { opacity: 1; }
     50% { opacity: 0; }
   }
-  @keyframes scan {
-    0% { transform: translateY(-100%); }
-    100% { transform: translateY(100vh); }
-  }
-  @keyframes pulseSoft {
-    0%, 100% { opacity: 0.55; }
-    50% { opacity: 1; }
-  }
 }
 
-/* Dark-mode default for the split token below. Declared *before* the
-   light block on purpose: `:root` and `[data-theme="light"]` both match
-   <html> with identical specificity, so whichever comes last wins. */
-:root {
-  --color-faint-text: var(--color-faint);
-}
-
-/* ---------- Light theme ---------- */
-/* Toggled via [data-theme] on <html> — see ThemeProvider.tsx. Every
-   Tailwind utility built from a --color-* token (including opacity
-   modifiers like bg-bone/5, which Tailwind v4 compiles to color-mix()
-   against the variable) picks these up automatically; only the
-   hardcoded literal colors below need their own light-mode rules.
-
-   Light mode is deliberately NOT a tinted mirror of the dark theme —
-   it is a plain document: white paper, cool-gray neutrals, one text
-   accent. The brand amber has no light counterpart, so amber/signal/
-   ember all collapse onto the neutral ramp; every `text-amber` in the
-   tree turns near-black here without touching a single component.
-   `go` and `danger` stay chromatic because they are the only tokens
-   carrying meaning (passed / failed) rather than mood. */
+/* Light mode: same flat structure, swapped tokens. */
 [data-theme="light"] {
   --color-void: #ffffff;
   --color-carbon: #f9fafb;
@@ -86,53 +42,26 @@
   --color-go: #047857;
   --color-invert: #374151;
   --color-danger: #dc2626;
-
-  /* --color-faint doubles as hairline-border AND tertiary-text colour.
-     Those diverge on white — #e5e7eb is a correct border and invisible
-     type — so text gets its own var and collapses onto `dust`. Two
-     readable text tiers beats three where the third can't be read. */
-  --color-faint-text: #6b7280;
 }
 
-/* A dark "island" for terminal-styled chrome — real terminals stay dark
-   regardless of the surrounding page theme. Pins descendants back to the
-   dark palette even when an ancestor has [data-theme="light"]. */
+/* A dark "island" for terminal-styled chrome. */
 .terminal-shell {
-  --color-void: #060607;
-  --color-carbon: #0c0d10;
-  --color-steel: #14161a;
+  --color-void: #0c0d10;
+  --color-carbon: #14161a;
+  --color-steel: #1c1e22;
   --color-bone: #e8e6e1;
   --color-dust: #9f9a8c;
-  --color-faint: #615d50;
+  --color-faint: #3a3d44;
   --color-amber: #e8a33d;
   --color-signal: #ffb454;
   --color-ember: #c75b26;
   --color-go: #34d399;
   --color-invert: #67e8f9;
   --color-danger: #ef4444;
-  --color-faint-text: #615d50;
-}
-
-/* Hero title-text shadow: a dark halo on dark mode, a light halo on
-   light mode — same purpose (legibility over the busy WebGL scene),
-   opposite direction. */
-:root {
-  --hero-text-shadow: 0 2px 18px rgba(0, 0, 0, 0.9), 0 1px 4px rgba(0, 0, 0, 0.95);
-}
-[data-theme="light"] {
-  --hero-text-shadow: 0 2px 18px rgba(245, 243, 236, 0.9), 0 1px 4px rgba(245, 243, 236, 0.95);
 }
 
 html {
   background: var(--color-void);
-  scroll-behavior: auto;
-}
-
-html.lenis, html.lenis body {
-  height: auto;
-}
-.lenis.lenis-smooth {
-  scroll-behavior: auto !important;
 }
 
 body {
@@ -148,258 +77,55 @@ body {
   color: var(--color-void);
 }
 
-/* Custom scrollbar — thin, cinematic */
+/* Scrollbar — thin, square, neutral */
 ::-webkit-scrollbar {
-  width: 4px;
+  width: 8px;
 }
 ::-webkit-scrollbar-track {
   background: var(--color-void);
 }
 ::-webkit-scrollbar-thumb {
   background: var(--color-faint);
+  border-radius: 0;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-amber);
-}
-
-/* ---------- Cinematic overlays ---------- */
-
-.film-grain {
-  position: fixed;
-  inset: -100%;
-  z-index: 90;
-  pointer-events: none;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  opacity: 0.05;
-  animation: grainShift 0.9s steps(4) infinite;
-}
-
-@keyframes grainShift {
-  0% { transform: translate(0, 0); }
-  25% { transform: translate(-2%, 3%); }
-  50% { transform: translate(3%, -2%); }
-  75% { transform: translate(-3%, -3%); }
-  100% { transform: translate(2%, 2%); }
-}
-
-.vignette {
-  position: fixed;
-  inset: 0;
-  z-index: 89;
-  pointer-events: none;
-  background: radial-gradient(
-    ellipse at center,
-    transparent 52%,
-    rgba(0, 0, 0, 0.42) 100%
-  );
-}
-[data-theme="light"] .vignette {
-  /* a heavy black vignette reads as dirty corners on a light page —
-     soften it way down rather than dropping it entirely */
-  background: radial-gradient(
-    ellipse at center,
-    transparent 55%,
-    rgba(23, 24, 27, 0.1) 100%
-  );
-}
-
-/* Hero/Contact: fades the WebGL scene into the page background at the
-   edges so text stays legible — tints toward whatever --color-void
-   currently is, not a fixed color, so it works in both themes. */
-.hero-vignette {
-  background: radial-gradient(
-    ellipse at center,
-    rgba(6, 6, 7, 0.32) 0%,
-    rgba(6, 6, 7, 0.5) 45%,
-    rgba(6, 6, 7, 0.85) 100%
-  );
-}
-/* Light mode never mounts the WebGL scene (see Hero.tsx), so there is
-   nothing to fade out — the layer is reused as the one piece of depth
-   the page keeps: a faint gray wash bleeding down from the top edge. */
-[data-theme="light"] .hero-vignette {
-  background: radial-gradient(
-    ellipse 80% 55% at 50% 0%,
-    var(--color-steel) 0%,
-    transparent 70%
-  );
-}
-
-.contact-vignette {
-  background: radial-gradient(ellipse at center, transparent 25%, rgba(6, 6, 7, 0.8) 100%);
-}
-[data-theme="light"] .contact-vignette {
-  background: none;
+  background: var(--color-dust);
 }
 
 /* ---------- Type utilities ---------- */
 
+/* Display headings: keep the Bebas identity but readable — no tight
+   line-height, no wide tracking, no forced uppercase. */
 .display-xl {
   font-family: var(--font-display);
-  line-height: 0.86;
-  letter-spacing: 0.015em;
-  text-transform: uppercase;
+  line-height: 1.05;
+  letter-spacing: 0;
+  text-transform: none;
 }
 
 .kicker {
   font-family: var(--font-mono);
-  font-size: 0.65rem;
-  letter-spacing: 0.42em;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--color-dust);
 }
 
-.text-outline {
-  color: transparent;
-  -webkit-text-stroke: 1px rgba(232, 230, 225, 0.34);
-}
-[data-theme="light"] .text-outline {
-  -webkit-text-stroke-color: rgba(3, 7, 18, 0.28);
-}
-
-.text-outline-amber {
-  color: transparent;
-  -webkit-text-stroke: 1px rgba(232, 163, 61, 0.55);
-}
-[data-theme="light"] .text-outline-amber {
-  -webkit-text-stroke-color: rgba(3, 7, 18, 0.28);
-}
-
-.glow-amber {
-  text-shadow:
-    0 0 18px rgba(232, 163, 61, 0.35),
-    0 0 60px rgba(232, 163, 61, 0.12);
-}
-[data-theme="light"] .glow-amber {
-  /* a neon bloom only reads against a dark backdrop — on paper, the
-     accent color alone carries it */
-  text-shadow: none;
-}
-
-/* ---------- Letterbox ---------- */
-
-.letterbox-bar {
-  position: fixed;
-  left: 0;
-  right: 0;
-  height: 0;
-  background: #000;
-  z-index: 80;
-  pointer-events: none;
-  transition: height 0.8s cubic-bezier(0.76, 0, 0.24, 1);
-}
-.letterbox-bar.top { top: 0; }
-.letterbox-bar.bottom { bottom: 0; }
-.letterboxed .letterbox-bar { height: clamp(28px, 6vh, 64px); }
-
-/* ---------- Hero boot reveals (CSS-driven — no hydration races) ---------- */
-
-.line-mask {
-  display: block;
-  overflow: hidden;
-}
-.line-inner {
-  display: block;
-  transform: translateY(108%);
-  transition: transform 1.15s cubic-bezier(0.22, 1, 0.36, 1);
-}
-.booted .line-inner {
-  transform: translateY(0);
-}
-
-.boot-fade {
-  opacity: 0;
-  transform: translateY(30px);
-  transition:
-    opacity 1.1s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 1.1s cubic-bezier(0.22, 1, 0.36, 1);
-}
-.booted .boot-fade {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* ---------- Terminal ---------- */
-
-.term-shadow {
-  box-shadow:
-    0 0 0 1px rgba(232, 163, 61, 0.14),
-    0 24px 80px rgba(0, 0, 0, 0.7),
-    0 0 120px rgba(232, 163, 61, 0.05);
-}
-
-.crt::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: repeating-linear-gradient(
-    0deg,
-    rgba(255, 255, 255, 0.025) 0px,
-    rgba(255, 255, 255, 0.025) 1px,
-    transparent 1px,
-    transparent 3px
-  );
-}
-
 /* ---------- Cards ---------- */
 
+/* Flat: hairline borders, no radius. */
 .artifact {
   position: relative;
-  background: linear-gradient(160deg, rgba(22, 24, 28, 0.94), rgba(10, 10, 12, 0.97));
-  border: 1px solid rgba(232, 230, 225, 0.14);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
-  transition: border-color 0.4s ease, transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  background: var(--color-carbon);
+  border: 1px solid var(--color-faint);
+  border-radius: 0;
 }
 .artifact:hover {
-  border-color: rgba(232, 163, 61, 0.4);
-}
-.artifact::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(
-    600px circle at var(--mx, 50%) var(--my, 50%),
-    rgba(232, 163, 61, 0.07),
-    transparent 45%
-  );
-  opacity: 0;
-  transition: opacity 0.4s ease;
-  pointer-events: none;
-}
-.artifact:hover::before {
-  opacity: 1;
-}
-
-/* Flat bordered card — no gradient, no lift, no cursor-tracked glow.
-   Hover just darkens the hairline, the way the reference does it. */
-[data-theme="light"] .artifact {
-  background: var(--color-void);
-  border-color: var(--color-faint);
-  border-radius: 0.5rem;
-  box-shadow: none;
-}
-[data-theme="light"] .artifact:hover {
   border-color: var(--color-bone);
-  transform: none;
-}
-[data-theme="light"] .artifact::before {
-  display: none;
 }
 
-/* LIVE systems glow green instead of amber — production has its own color. */
-.artifact-live:hover {
-  border-color: rgba(52, 211, 153, 0.45);
-}
-.artifact-live::before {
-  background: radial-gradient(
-    600px circle at var(--mx, 50%) var(--my, 50%),
-    rgba(52, 211, 153, 0.09),
-    transparent 45%
-  );
-}
-[data-theme="light"] .artifact-live:hover {
-  border-color: var(--color-go);
+.artifact-live {
+  border-color: color-mix(in srgb, var(--color-go) 35%, var(--color-faint));
 }
 
 /* ---------- Pipeline gate ---------- */
@@ -411,162 +137,13 @@ body {
 .gate-connector.done {
   background: var(--color-go);
 }
-.gate-connector.active {
-  background: var(--color-amber);
-}
-
-/* ---------- Security severity ---------- */
-
-.severity-critical {
-  color: var(--color-danger);
-  border-color: color-mix(in srgb, var(--color-danger) 40%, transparent);
-}
-.severity-high {
-  color: var(--color-ember);
-  border-color: color-mix(in srgb, var(--color-ember) 40%, transparent);
-}
-.severity-medium {
-  color: var(--color-amber);
-  border-color: color-mix(in srgb, var(--color-amber) 40%, transparent);
-}
-.severity-low {
-  color: var(--color-dust);
-  border-color: color-mix(in srgb, var(--color-dust) 40%, transparent);
-}
-
-/* ---------- Coverage ring ---------- */
-
-@keyframes ringFill {
-  from { stroke-dashoffset: var(--ring-circumference); }
-  to { stroke-dashoffset: var(--ring-offset); }
-}
-.ring-progress {
-  animation: ringFill 1.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-  animation-play-state: paused;
-}
-.ring-progress.in-view {
-  animation-play-state: running;
-}
-
-/* ---------- Metric badge ---------- */
-
-.badge {
-  display: inline-flex;
-  align-items: center;
-  font-family: var(--font-mono);
-  font-size: 0.6rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  border: 1px solid rgba(232, 230, 225, 0.1);
-}
-.badge-label {
-  background: rgba(232, 230, 225, 0.05);
-  color: var(--color-dust);
-  padding: 0.25rem 0.5rem;
-}
-.badge-value {
-  padding: 0.25rem 0.5rem;
-  border-left: 1px solid rgba(232, 230, 225, 0.1);
-}
-[data-theme="light"] .badge {
-  border-color: rgba(23, 24, 27, 0.15);
-}
-[data-theme="light"] .badge-label {
-  background: rgba(23, 24, 27, 0.05);
-}
-[data-theme="light"] .badge-value {
-  border-left-color: rgba(23, 24, 27, 0.15);
-}
 
 /* ---------- Reduced motion ---------- */
 
 @media (prefers-reduced-motion: reduce) {
-  .film-grain { animation: none; }
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
-}
-
-/* ------------------------------------------------------------------ */
-/*  LIGHT MODE — strip the cinema                                      */
-/*  The dark theme is a film: grain, letterbox bars, vignette, neon     */
-/*  bloom, cursor-tracked glows. None of that survives on white paper  */
-/*  — it reads as dirt and noise rather than atmosphere. Light mode is */
-/*  a document, so every atmospheric layer is switched off here rather */
-/*  than restyled, and the components never learn about it.            */
-/* ------------------------------------------------------------------ */
-
-/* Not opacity:0 — display:none also stops the grain animation from
-   repainting a full-viewport layer 60×/s for no visible reason. */
-[data-theme="light"] .film-grain,
-[data-theme="light"] .vignette,
-[data-theme="light"] .letterbox-bar {
-  display: none;
-}
-
-/* Tertiary type: see --color-faint-text above. The terminal island
-   re-pins the var, so dim text inside it stays on the dark ramp. */
-[data-theme="light"] .text-faint {
-  color: var(--color-faint-text);
-}
-
-/* The terminal stays dark, but it sits on paper now: soften it to a
-   plain raised panel instead of an amber-ringed CRT bleeding light. */
-[data-theme="light"] .term-shadow {
-  border-radius: 0.5rem;
-  box-shadow:
-    0 1px 2px rgba(3, 7, 18, 0.08),
-    0 12px 28px rgba(3, 7, 18, 0.1);
-}
-
-/* Mono micro-labels: 0.42em tracking is a title-card effect. Pulled in
-   to a normal uppercase label so it reads as an eyebrow, not a poster. */
-[data-theme="light"] .kicker {
-  letter-spacing: 0.14em;
-}
-
-/* Metric chips become the reference's rounded pills. */
-[data-theme="light"] .badge {
-  border-radius: 999px;
-  overflow: hidden;
-}
-
-/* 4px cinematic hairline -> a scrollbar you can actually grab. */
-[data-theme="light"] ::-webkit-scrollbar {
-  width: 8px;
-}
-[data-theme="light"] ::-webkit-scrollbar-track {
-  background: transparent;
-}
-[data-theme="light"] ::-webkit-scrollbar-thumb {
-  background: var(--color-faint);
-  border-radius: 999px;
-}
-[data-theme="light"] ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-dust);
-}
-
-/* Interlude backdrop — an amber haze in the dark, nothing on paper. */
-.interlude-glow {
-  background: radial-gradient(ellipse at center, rgba(232, 163, 61, 0.05), transparent 60%);
-}
-[data-theme="light"] .interlude-glow {
-  background: none;
-}
-
-/* The top bar difference-blends on md+ so the logo inverts itself against
-   whatever the WebGL scene is doing behind it. On white that subtraction
-   lands on near-white and the logo disappears — and there is no moving
-   image to invert against anyway, so light mode blends normally and keeps
-   the scrim at every width instead of only on mobile. */
-[data-theme="light"] .site-header {
-  mix-blend-mode: normal;
-  background-image: linear-gradient(
-    to bottom,
-    var(--color-void),
-    color-mix(in srgb, var(--color-void) 85%, transparent) 55%,
-    transparent
-  );
 }

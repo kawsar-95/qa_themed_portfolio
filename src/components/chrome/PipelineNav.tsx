@@ -3,12 +3,11 @@
 import { useEffect, useState } from "react";
 import { Sun, Moon } from "lucide-react";
 import { PIPELINE_STAGES } from "@/lib/data";
-import { useLenis } from "./SmoothScroll";
+import { useLenis } from "@/components/chrome/SmoothScroll";
 import { useTheme } from "@/components/ThemeProvider";
 
 /**
- * The pipeline rail — every QA release visualized on the left edge.
- * Stages light up as the visitor's scroll executes the site.
+ * Top bar + scroll progress. Stages light up as the visitor scrolls.
  */
 export default function PipelineNav() {
   const lenis = useLenis();
@@ -46,7 +45,7 @@ export default function PipelineNav() {
   const goTo = (id: string) => {
     const el = document.getElementById(id);
     if (!el) return;
-    if (lenis) lenis.scrollTo(el, { offset: 0, duration: 1.8 });
+    if (lenis) lenis.scrollTo(el, { offset: 0, duration: 1.4 });
     else el.scrollIntoView({ behavior: "smooth" });
   };
 
@@ -55,55 +54,40 @@ export default function PipelineNav() {
 
   return (
     <>
-      {/* ---- Top bar ---- */}
-      {/* mobile: gradient scrim so scrolling text never collides with the logo;
-          md+: blend mode, content rarely reaches the bar there.
-          Light mode drops the blend and keeps the scrim at every width —
-          see `.site-header` in globals.css for why difference-blending
-          can't work on a white page. */}
-      <header className="site-header fixed inset-x-0 top-0 z-[100] flex items-center justify-between bg-gradient-to-b from-void via-void/85 to-transparent px-5 pb-6 pt-4 md:bg-none md:px-8 md:pb-4 md:mix-blend-difference">
+      {/* Top bar */}
+      <header className="fixed inset-x-0 top-0 z-[100] flex items-center justify-between border-b border-faint bg-void px-5 py-3 md:px-8">
         <button
           onClick={() => goTo("spec")}
-          data-cursor="TOP"
-          className="font-mono text-xs font-bold tracking-[0.3em] text-bone"
+          className="font-mono text-xs text-bone"
         >
-          QA<span className="text-amber">://</span>RUN
+          qa<span className="text-amber">://</span>run
         </button>
 
         <button
           onClick={toggleTheme}
-          data-cursor="THEME"
           aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
-          className="flex h-7 w-7 items-center justify-center border border-bone/15 text-bone/70 transition-colors hover:border-amber/50 hover:text-amber"
+          className="text-dust transition-colors hover:text-amber"
         >
-          {theme === "dark" ? <Sun size={13} /> : <Moon size={13} />}
+          {theme === "dark" ? <Sun size={14} /> : <Moon size={14} />}
         </button>
       </header>
 
-      {/* ---- Bottom progress (mobile) ---- */}
-      <div className="fixed inset-x-0 bottom-0 z-[100] bg-gradient-to-t from-void via-void/85 to-transparent pt-6 lg:hidden">
-        <div className="flex items-center justify-between px-5 pb-4">
-          <span className="font-mono text-[9px] tracking-[0.3em] text-amber">
-            {activeStage?.label}
-          </span>
-          <span className="font-mono text-[9px] tracking-[0.2em] text-dust">
+      {/* Bottom progress (mobile) */}
+      <div className="fixed inset-x-0 bottom-0 z-[100] border-t border-faint bg-void lg:hidden">
+        <div className="flex items-center justify-between px-5 py-2 text-xs">
+          <span className="text-amber">{activeStage?.label}</span>
+          <span className="text-dust">
             {String(Math.round(progress * 100)).padStart(3, "0")}%
           </span>
         </div>
-        <div className="h-px w-full bg-faint/40">
-          <div
-            className="h-px bg-amber transition-[width] duration-200"
-            style={{ width: `${progress * 100}%` }}
-          />
+        <div className="h-px w-full bg-faint">
+          <div className="h-px bg-amber" style={{ width: `${progress * 100}%` }} />
         </div>
       </div>
 
-      {/* ---- Desktop scroll progress: hairline on right edge ---- */}
-      <div className="fixed bottom-0 right-0 top-0 z-[100] hidden w-px bg-faint/30 lg:block">
-        <div
-          className="w-px bg-amber/80"
-          style={{ height: `${progress * 100}%` }}
-        />
+      {/* Desktop scroll progress: hairline on right edge */}
+      <div className="fixed bottom-0 right-0 top-0 z-[100] hidden w-px bg-faint lg:block">
+        <div className="w-px bg-amber" style={{ height: `${progress * 100}%` }} />
       </div>
     </>
   );

@@ -2,52 +2,22 @@
 
 import { motion } from "framer-motion";
 
-/**
- * Interlude — a single frame of pure cinema between acts.
- */
+/** Interlude — a centered statement between acts. */
 export default function Interlude() {
   return (
-    <div className="relative flex min-h-[50vh] items-center justify-center overflow-hidden px-5 py-28">
-      <div className="interlude-glow pointer-events-none absolute inset-0" />
+    <motion.div
+      initial={{ opacity: 0, y: 16 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-80px" }}
+      transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+      className="flex min-h-[30vh] items-center justify-center px-5 py-20 md:px-12"
+    >
       <div className="text-center">
-        <motion.div
-          initial={{ opacity: 0, letterSpacing: "0.6em" }}
-          whileInView={{ opacity: 1, letterSpacing: "0.35em" }}
-          viewport={{ once: true, margin: "-120px" }}
-          transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
-          className="kicker mb-8"
-        >
-          INTERMISSION
-        </motion.div>
-        <motion.div
-          className="overflow-hidden"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-120px" }}
-        >
-          <motion.p
-            variants={{ hidden: { y: "105%" }, visible: { y: 0 } }}
-            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-            className="display-xl text-[clamp(2.2rem,7vw,6rem)] text-bone"
-          >
-            TIME IS <span className="text-outline">RELATIVE.</span>
-          </motion.p>
-        </motion.div>
-        <motion.div
-          className="overflow-hidden"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-120px" }}
-        >
-          <motion.p
-            variants={{ hidden: { y: "105%" }, visible: { y: 0 } }}
-            transition={{ duration: 1, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-            className="display-xl text-[clamp(2.2rem,7vw,6rem)] text-amber"
-          >
-            COVERAGE IS ABSOLUTE.
-          </motion.p>
-        </motion.div>
+        <p className="display-xl text-[clamp(1.75rem,4vw,2.75rem)] leading-tight text-bone">
+          Time is <span className="text-dust">relative.</span>{" "}
+          <span className="text-amber">Coverage is absolute.</span>
+        </p>
       </div>
-    </div>
+    </motion.div>
   );
 }

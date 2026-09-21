@@ -1,5 +1,3 @@
-"use client";
-
 import ToolIcon, { slugifyTool } from "@/components/ToolIcon";
 
 const TOOLS = [
@@ -8,37 +6,21 @@ const TOOLS = [
   "JAVASCRIPT", "JAVA", "DOCKER", "GIT", "SCRUM", "KANBAN",
 ];
 
-/**
- * The toolchain conveyor — an infinite strip of everything that ships.
- */
+/** Toolchain strip — the toolset. */
 export default function Marquee() {
-  const row = [...TOOLS, ...TOOLS];
   return (
-    <div className="relative overflow-hidden border-y border-bone/8 py-5">
-      <div className="flex w-max animate-marquee items-center gap-8 whitespace-nowrap">
-        {row.map((tool, i) => {
+    <div className="border-y border-faint px-5 py-4 md:px-12 lg:px-24">
+      <ul className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-xs text-dust md:gap-x-6">
+        {TOOLS.map((tool) => {
           const slug = slugifyTool(tool);
           return (
-            <span key={`${tool}-${i}`} className="flex items-center gap-4">
-              {slug && (
-                <ToolIcon
-                  tool={slug}
-                  size={22}
-                  className={i % 2 === 0 ? "text-bone/70" : "text-bone/25"}
-                />
-              )}
-              <span
-                className={`display-xl text-2xl md:text-3xl ${
-                  i % 2 === 0 ? "text-bone/80" : "text-outline"
-                }`}
-              >
-                {tool}
-              </span>
-              <span className="h-1.5 w-1.5 rotate-45 bg-amber/60" />
-            </span>
+            <li key={tool} className="flex items-center gap-1.5">
+              {slug && <ToolIcon tool={slug} size={12} className="text-dust" />}
+              {tool}
+            </li>
           );
         })}
-      </div>
+      </ul>
     </div>
   );
 }

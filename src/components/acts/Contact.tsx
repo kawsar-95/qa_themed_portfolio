@@ -1,131 +1,56 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
-import LogLine from "@/components/LogLine";
 import { IDENTITY } from "@/lib/data";
-import { useTheme } from "@/components/ThemeProvider";
-
-const Gargantua = dynamic(() => import("@/components/three/Gargantua"), {
-  ssr: false,
-});
 
 const CHANNELS = [
-  { label: "EMAIL", value: IDENTITY.email, href: `mailto:${IDENTITY.email}`, cmd: "mail -s" },
-  { label: "GITHUB", value: `github.com/${IDENTITY.githubHandle}`, href: IDENTITY.github, cmd: "git clone" },
-  { label: "LINKEDIN", value: "Nuruddin Kawsar", href: IDENTITY.linkedin, cmd: "curl -L" },
-  { label: "WEB", value: "nuruddinkawsar.me", href: IDENTITY.site, cmd: "ping" },
+  { label: "email", value: IDENTITY.email, href: `mailto:${IDENTITY.email}` },
+  { label: "phone", value: IDENTITY.phone, href: `tel:${IDENTITY.phone.replace(/\s|\*/g, "")}` },
+  { label: "github", value: `github.com/${IDENTITY.githubHandle}`, href: IDENTITY.github },
+  { label: "linkedin", value: "Nuruddin Kawsar", href: IDENTITY.linkedin },
 ];
 
 /**
- * ACT VII — SIGNOFF. The event horizon of the whole journey.
- * Every test run ends here: something real, verified, reachable.
+ * ACT VII — SIGNOFF.
  */
 export default function Contact() {
-  const { theme } = useTheme();
-  const isLight = theme === "light";
   return (
     <section
       id="signoff"
-      className="relative flex min-h-[100svh] flex-col overflow-hidden"
+      className="relative flex min-h-[50svh] flex-col"
     >
-      {/* Gargantua hangs behind everything — dark mode only. On paper the
-          black hole has nothing to glow against, so light mode skips the
-          canvas entirely rather than rendering an invisible one. */}
-      {!isLight && (
-        <>
-          <div className="absolute inset-0">
-            <Gargantua theme={theme} />
-          </div>
-          <div className="contact-vignette pointer-events-none absolute inset-0" />
-        </>
-      )}
-
-      <div className="relative z-10 flex flex-1 flex-col items-center justify-center px-5 py-36 text-center">
+      <div className="relative flex flex-1 flex-col items-center justify-center px-5 py-16 text-center md:px-12">
         <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.8 }}
-          className="mb-4 flex items-center gap-4"
-        >
-          <span className="kicker text-amber">ACT VII</span>
-          <span className="h-px w-14 bg-faint" />
-          <span className="kicker">SIGNOFF</span>
-        </motion.div>
-
-        <motion.div
-          className="overflow-hidden"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-        >
-          <motion.h2
-            variants={{ hidden: { y: "110%" }, visible: { y: 0 } }}
-            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-            className="display-xl glow-amber text-[clamp(4rem,15vw,14rem)] text-bone"
-          >
-            APPROVED ✓
-          </motion.h2>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 8 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="crt term-shadow terminal-shell relative mt-6 w-full max-w-lg overflow-hidden bg-carbon text-left"
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          className="mb-4 flex items-center gap-3 text-xs text-dust"
         >
-          <div className="flex items-center gap-2 border-b border-bone/8 bg-steel/60 px-4 py-2.5">
-            <span className="h-2 w-2 rounded-full bg-danger/80" />
-            <span className="h-2 w-2 rounded-full bg-amber/80" />
-            <span className="h-2 w-2 rounded-full bg-go/80" />
-            <span className="ml-1 font-mono text-[9px] tracking-[0.25em] text-dust">sign-off.log</span>
-          </div>
-          <div className="px-4 py-4 md:px-5">
-            <LogLine
-              text="Every test suite ends in a report. This one ends with you and me, deciding what ships next."
-              startDelay={500}
-            />
-          </div>
+          <span>ACT VII</span>
+          <span className="h-px w-10 bg-faint" />
+          <span>signoff</span>
         </motion.div>
-
-        <motion.a
-          initial={{ opacity: 0, scale: 0.94 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.45 }}
-          href={`mailto:${IDENTITY.email}?subject=Let%27s%20talk%20QA`}
-          data-cursor="SEND"
-          className="group mt-10 inline-flex items-center gap-4 border border-amber/50 bg-void/60 px-8 py-4 font-mono text-xs tracking-[0.25em] text-amber backdrop-blur-sm transition-all duration-500 hover:border-amber hover:bg-amber hover:text-void md:text-sm"
-        >
-          <span className="text-go transition-colors group-hover:text-void">$</span>
-          sign-off --approve
-          <span className="transition-transform duration-300 group-hover:translate-x-1.5">→</span>
-        </motion.a>
 
         {/* channels */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-          className="mt-16 grid w-full max-w-3xl grid-cols-1 gap-px bg-faint/30 sm:grid-cols-2"
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
+          className="mt-8 grid w-full max-w-3xl grid-cols-1 gap-px bg-faint sm:grid-cols-2"
         >
           {CHANNELS.map((c) => (
             <a
               key={c.label}
               href={c.href}
-              target={c.href.startsWith("mailto") ? undefined : "_blank"}
+              target={c.href.startsWith("mailto") || c.href.startsWith("tel") ? undefined : "_blank"}
               rel="noopener noreferrer"
-              data-cursor="OPEN"
-              className="group flex items-center justify-between bg-void/80 px-5 py-4 backdrop-blur-sm transition-colors duration-400 hover:bg-steel/80"
+              className="flex items-center justify-between bg-void px-5 py-3 transition-colors hover:bg-steel"
             >
-              <span className="font-mono text-[10px] tracking-[0.3em] text-dust transition-colors group-hover:text-amber">
-                {c.label}
-              </span>
-              <span className="font-mono text-[11px] text-bone/70 transition-colors group-hover:text-bone">
-                {c.value} <span className="text-faint transition-colors group-hover:text-amber">↗</span>
+              <span className="text-xs text-dust">{c.label}</span>
+              <span className="text-sm text-bone/80">
+                {c.value} <span className="text-faint">↗</span>
               </span>
             </a>
           ))}
@@ -133,13 +58,10 @@ export default function Contact() {
       </div>
 
       {/* footer */}
-      <footer className="relative z-10 border-t border-bone/8 bg-void/70 px-5 pb-20 pt-6 backdrop-blur-sm md:px-12 lg:pb-6">
-        <div className="flex flex-col items-center justify-between gap-3 text-center font-mono text-[9px] tracking-[0.25em] text-faint md:flex-row md:text-left">
-          <span>© 2026 NURUDDIN KAWSAR</span>
-          <span className="flex items-center gap-2">
-            <span className="inline-block h-1 w-1 animate-pulse-soft rounded-full bg-go" />
-            ALL SUITES PASSING — TESTED FROM DHAKA
-          </span>
+      <footer className="border-t border-faint px-5 py-5 md:px-12">
+        <div className="flex flex-col items-center justify-between gap-2 text-center text-xs text-faint md:flex-row md:text-left">
+          <span>© 2026 Nuruddin Kawsar</span>
+          <span>All suites passing — tested from Dhaka</span>
           <span>build v2026.9.13 · sqa-verified</span>
         </div>
       </footer>
