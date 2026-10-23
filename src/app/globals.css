@@ -135,7 +135,6 @@ body {
 /* ---------- Pipeline gate ---------- */
 
 .gate-connector {
-  height: 1px;
   background: var(--color-faint);
 }
 .gate-connector.done {

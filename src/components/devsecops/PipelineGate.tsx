@@ -18,7 +18,7 @@ const STATUS_TEXT: Record<GateStep["status"], string> = {
 };
 
 /**
- * CI-style sequential check run. Horizontal row, scrolls on narrow viewports.
+ * CI-style sequential check run. Horizontal row on desktop, vertical list on mobile.
  */
 export default function PipelineGate({
   title,
@@ -37,13 +37,13 @@ export default function PipelineGate({
       </div>
 
       <div className="overflow-x-auto p-5 md:p-8">
-        <div className="flex min-w-max items-start justify-center gap-0">
+        <div className="flex flex-col items-start gap-0 md:min-w-max md:flex-row md:justify-center">
           {steps.map((step, i) => {
             const last = i === steps.length - 1;
             const nextDone = !last && steps[i + 1].status === "pass";
             return (
-              <div key={step.id} className="flex items-start">
-                <div className="flex w-[88px] flex-col items-center gap-2 text-center">
+              <div key={step.id} className="flex flex-col items-start md:flex-row">
+                <div className="flex items-start gap-3 md:w-[88px] md:flex-col md:items-center md:gap-2 md:text-center">
                   {STATUS_ICON[step.status]}
                   <div>
                     <div className={`font-mono text-xs ${STATUS_TEXT[step.status]}`}>
@@ -58,7 +58,7 @@ export default function PipelineGate({
                 </div>
                 {!last && (
                   <div
-                    className={`gate-connector mt-[7px] w-4 shrink-0 md:w-6 ${nextDone ? "done" : ""}`}
+                    className={`gate-connector ml-[7px] h-4 w-px shrink-0 md:ml-0 md:mt-[7px] md:h-px md:w-6 ${nextDone ? "done" : ""}`}
                   />
                 )}
               </div>
