@@ -37,8 +37,6 @@ export const PIPELINE_STAGES = [
   { id: "report", label: "Projects" },
   { id: "stats", label: "Stats" },
   { id: "case", label: "Skills" },
-  { id: "writing", label: "Writing" },
-  { id: "moments", label: "Moments" },
   { id: "triage", label: "Shell" },
   { id: "signoff", label: "Contact" },
 ] as const;
@@ -225,11 +223,6 @@ export const EDUCATION: Education[] = [
     note: "Computer science fundamentals.",
   },
 ];
-
-/** Empty on purpose — each section shows an empty state until filled. */
-export const ACHIEVEMENTS: { period: string; title: string; detail: string }[] = [];
-export const NOTES: { date: string; title: string; summary: string; url: string; tags: string[] }[] = [];
-export const MOMENTS: { title: string; place: string; year: string; image: string }[] = [];
 
 /* ------------------------------------------------------------------ */
 /*  PROJECTS — case studies                                            */

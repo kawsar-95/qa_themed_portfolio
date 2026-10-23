@@ -263,7 +263,7 @@ export default function TerminalSection() {
   return (
     <section id="triage" className="relative px-5 py-20 md:px-12 md:py-28 lg:px-24">
       <SectionTitle
-        n={5}
+        n={7}
         label="Shell"
         title="Take the"
         accent="controls."

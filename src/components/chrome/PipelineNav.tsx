@@ -54,34 +54,38 @@ export default function PipelineNav() {
 
   return (
     <>
-      {/* Top bar */}
-      <header className="fixed inset-x-0 top-0 z-[100] flex items-center justify-between border-b border-faint bg-void px-5 py-3 md:px-8">
-        <button
-          onClick={() => goTo("spec")}
-          className="font-mono text-xs text-bone"
-        >
-          qa<span className="text-amber">://</span>run
-        </button>
+      {/* Floating pill nav */}
+      <header className="fixed inset-x-0 top-3 z-[100] flex justify-center px-3">
+        <div className="flex max-w-full items-center gap-1 rounded-full border border-faint bg-carbon/85 px-2 py-1.5 backdrop-blur">
+          <button onClick={() => goTo("spec")} aria-label="Back to top" className="shrink-0">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/icon.svg" alt="" width={28} height={28} className="h-7 w-7 rounded-full object-cover" />
+          </button>
 
-        <nav className="hidden items-center gap-5 text-xs md:flex">
-          {PIPELINE_STAGES.slice(1).map((s, i) => (
-            <button
-              key={s.id}
-              onClick={() => goTo(s.id)}
-              className={`transition-colors hover:text-amber ${active === s.id ? "text-amber" : "text-dust"}`}
-            >
-              <span className="text-mute">{String(i + 1).padStart(2, "0")}</span> {s.label}
-            </button>
-          ))}
-        </nav>
+          <nav className="hidden items-center gap-0.5 pl-2 text-xs xl:flex">
+            {PIPELINE_STAGES.slice(1).map((s, i) => (
+              <button
+                key={s.id}
+                onClick={() => goTo(s.id)}
+                className={`whitespace-nowrap rounded-full px-2.5 py-1 transition-colors ${
+                  active === s.id ? "bg-amber text-void" : "text-dust hover:text-bone"
+                }`}
+              >
+                <span className="opacity-60">{String(i + 1).padStart(2, "0")}</span> {s.label}
+              </button>
+            ))}
+          </nav>
 
-        <button
-          onClick={toggleTheme}
-          aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
-          className="text-dust transition-colors hover:text-amber"
-        >
-          {theme === "dark" ? <Sun size={14} /> : <Moon size={14} />}
-        </button>
+          <span className="px-3 text-xs text-amber xl:hidden">{activeStage?.label}</span>
+
+          <button
+            onClick={toggleTheme}
+            aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+            className="ml-1 shrink-0 rounded-full p-1.5 text-dust transition-colors hover:text-amber"
+          >
+            {theme === "dark" ? <Sun size={14} /> : <Moon size={14} />}
+          </button>
+        </div>
       </header>
 
       {/* Bottom progress (mobile) */}

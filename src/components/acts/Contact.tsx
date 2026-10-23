@@ -15,6 +15,14 @@ const CHANNELS = [
  * ACT VII — SIGNOFF.
  */
 export default function Contact() {
+  const send = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const f = new FormData(e.currentTarget);
+    const body = `${f.get("message")}\n\n— ${f.get("name")} (${f.get("email")})`;
+    // shortcut: opens the visitor's mail app, no backend; swap for a form API if replies must be tracked.
+    window.location.href = `mailto:${IDENTITY.email}?subject=${encodeURIComponent(String(f.get("subject")))}&body=${encodeURIComponent(body)}`;
+  };
+
   return (
     <section
       id="signoff"
@@ -22,7 +30,7 @@ export default function Contact() {
     >
       <div className="relative flex flex-1 flex-col items-center justify-center px-5 py-16 text-center md:px-12">
         <SectionTitle
-          n={6}
+          n={8}
           label="Contact"
           title="Let's ship something"
           accent="together."
@@ -53,6 +61,45 @@ export default function Contact() {
             </a>
           ))}
         </motion.div>
+
+        <form
+          onSubmit={send}
+          className="artifact mt-8 w-full max-w-md space-y-3 p-6 text-left"
+        >
+          <div className="text-[10px] font-medium uppercase tracking-[0.12em] text-mute">
+            Send a message
+          </div>
+          {[
+            ["name", "Your name", "text"],
+            ["email", "Email", "email"],
+            ["subject", "Subject", "text"],
+          ].map(([name, label, type]) => (
+            <label key={name} className="block text-xs text-mute">
+              {label}
+              <input
+                name={name}
+                type={type}
+                required
+                className="mt-1 block w-full rounded-md border border-faint bg-void px-3 py-2 text-sm text-bone outline-none focus:border-amber"
+              />
+            </label>
+          ))}
+          <label className="block text-xs text-mute">
+            Message
+            <textarea
+              name="message"
+              required
+              rows={4}
+              className="mt-1 block w-full resize-y rounded-md border border-faint bg-void px-3 py-2 text-sm text-bone outline-none focus:border-amber"
+            />
+          </label>
+          <button
+            type="submit"
+            className="w-full rounded-md bg-amber px-4 py-2 text-sm font-medium text-void transition-opacity hover:opacity-90"
+          >
+            Send →
+          </button>
+        </form>
       </div>
 
       {/* footer */}

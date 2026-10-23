@@ -9,6 +9,8 @@ import Skills from "@/components/acts/Skills";
 import Experience from "@/components/acts/Experience";
 import Projects from "@/components/acts/Projects";
 import TerminalSection from "@/components/acts/TerminalSection";
+import Education from "@/components/acts/Education";
+import Stats from "@/components/acts/Stats";
 import Contact from "@/components/acts/Contact";
 
 export default function Pipeline() {
@@ -22,7 +24,9 @@ export default function Pipeline() {
         <Marquee />
         <About />
         <Experience />
+        <Education />
         <Projects />
+        <Stats />
         <Skills />
         <Interlude />
         <TerminalSection />

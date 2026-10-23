@@ -53,30 +53,13 @@ export default function About() {
         log="Every release has a test plan. This is the one that started mine."
       />
 
-      <div className="mx-auto max-w-5xl">
-        <dl className="mb-10 grid max-w-3xl grid-cols-[7rem_1fr] gap-x-4 gap-y-1 font-mono text-sm">
-          {[
-            ["name", "Nuruddin Kawsar"],
-            ["role", "QA Automation Engineer"],
-            ["company", "Shomvob Technologies Ltd."],
-            ["location", "Dhaka, Bangladesh"],
-            ["timezone", "GMT+6"],
-            ["status", "open to opportunities"],
-            ["stack", "Playwright · Cypress · Postman"],
-          ].map(([k, v]) => (
-            <div key={k} className="contents">
-              <dt className="text-dust">{k}</dt>
-              <dd className="text-bone">{v}</dd>
-            </div>
-          ))}
-        </dl>
-
+      <div className="mx-auto grid max-w-5xl gap-10 md:grid-cols-[1fr_20rem]">
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.6, ease: EASE }}
-          className="max-w-3xl space-y-6 text-lg font-light leading-relaxed text-bone/85 md:text-xl"
+          className="space-y-6 text-base font-light leading-relaxed text-bone/85 md:text-lg"
         >
           <p>
             I exist in the space between{" "}
@@ -96,6 +79,23 @@ export default function About() {
             before I let it out the door.
           </p>
         </motion.div>
+
+        <dl className="artifact grid h-fit grid-cols-[5.5rem_1fr] gap-x-3 gap-y-2.5 p-5 font-mono text-xs">
+          {[
+            ["name", "Nuruddin Kawsar"],
+            ["role", "QA Automation Engineer"],
+            ["company", "Shomvob Technologies Ltd."],
+            ["location", "Dhaka, Bangladesh"],
+            ["timezone", "GMT+6"],
+            ["status", "open to opportunities"],
+            ["stack", "Playwright · Cypress · Postman"],
+          ].map(([k, v]) => (
+            <div key={k} className="contents">
+              <dt className="text-mute">{k}</dt>
+              <dd className={k === "status" ? "text-go" : "text-bone"}>{v}</dd>
+            </div>
+          ))}
+        </dl>
       </div>
 
       <Principle
