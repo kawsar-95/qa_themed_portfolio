@@ -37,7 +37,7 @@ const KIND_CLASS: Record<LineKind, string> = {
   out: "text-bone/75",
   ok: "text-go",
   err: "text-danger",
-  dim: "text-faint",
+  dim: "text-mute",
   amber: "text-amber",
 };
 
@@ -263,8 +263,10 @@ export default function TerminalSection() {
   return (
     <section id="triage" className="relative px-5 py-20 md:px-12 md:py-28 lg:px-24">
       <SectionTitle
-        act="ACT VI"
-        title="TRIAGE"
+        n={5}
+        label="Shell"
+        title="Take the"
+        accent="controls."
         log="Enough watching. Take the controls — this shell is real. Type `run-tests` when ready."
       />
 
@@ -321,7 +323,7 @@ export default function TerminalSection() {
         </div>
       </motion.div>
 
-      <p className="mt-4 text-center text-xs text-faint">
+      <p className="mt-4 text-center text-xs text-mute">
         ↑/↓ history · ctrl+l clears · three easter eggs hide in the shell
       </p>
     </section>

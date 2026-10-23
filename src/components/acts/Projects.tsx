@@ -64,7 +64,7 @@ function BigCard({ a, i, featured = false }: { a: Artifact; i: number; featured?
       transition={{ duration: 0.5, delay: (i % 2) * 0.08, ease: [0.22, 1, 0.36, 1] }}
       className={`artifact flex flex-col p-6 md:p-7 ${featured ? "artifact-live" : ""}`}
     >
-      <div className="mb-4 flex items-center justify-between text-xs text-faint">
+      <div className="mb-4 flex items-center justify-between text-xs text-mute">
         <span className="truncate font-mono">
           {a.id.toLowerCase()}
           <span className="text-amber">:{a.version}</span>
@@ -132,7 +132,7 @@ function BigCard({ a, i, featured = false }: { a: Artifact; i: number; featured?
         {a.url || a.repo || a.links?.length ? (
           <ArtifactLinks a={a} />
         ) : (
-          <span className="text-xs text-faint">
+          <span className="text-xs text-mute">
             client engagement — no public link
           </span>
         )}
@@ -151,8 +151,10 @@ export default function Projects() {
   return (
     <section id="report" className="relative px-5 py-20 md:px-12 md:py-28 lg:px-24">
       <SectionTitle
-        act="ACT V"
-        title="REPORT"
+        n={3}
+        label="Projects"
+        title="Things I've"
+        accent="tested."
         log="Four platforms, four different ways to fail. Here's what I caught before anyone else did."
       />
 

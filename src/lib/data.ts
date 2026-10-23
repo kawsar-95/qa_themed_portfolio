@@ -30,14 +30,17 @@ export const STATS = [
 ];
 
 export const PIPELINE_STAGES = [
-  { id: "spec", label: "SPEC", act: "ACT I" },
-  { id: "plan", label: "PLAN", act: "ACT II" },
-  { id: "case", label: "CASE", act: "ACT III" },
-  { id: "run", label: "RUN", act: "ACT IV" },
-  { id: "report", label: "REPORT", act: "ACT V" },
-  { id: "triage", label: "TRIAGE", act: "ACT VI" },
-  { id: "signoff", label: "SIGNOFF", act: "ACT VII" },
+  { id: "spec", label: "HOME" },
+  { id: "plan", label: "ABOUT" },
+  { id: "run", label: "WORK" },
+  { id: "report", label: "PROJECTS" },
+  { id: "case", label: "SKILLS" },
+  { id: "triage", label: "SHELL" },
+  { id: "signoff", label: "CONTACT" },
 ] as const;
+
+/** Numbered sections after the hero. */
+export const SECTION_COUNT = PIPELINE_STAGES.length - 1;
 
 /* ------------------------------------------------------------------ */
 /*  SKILLS — presented as a test manifest                              */

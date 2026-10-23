@@ -5,7 +5,7 @@ const STATUS_ICON: Record<GateStep["status"], React.ReactNode> = {
   pass: <CircleCheck size={15} className="text-go" />,
   fail: <CircleX size={15} className="text-danger" />,
   running: <CircleCheck size={15} className="text-amber" />,
-  pending: <CircleDashed size={15} className="text-faint" />,
+  pending: <CircleDashed size={15} className="text-mute" />,
   warn: <TriangleAlert size={15} className="text-amber" />,
 };
 
@@ -13,7 +13,7 @@ const STATUS_TEXT: Record<GateStep["status"], string> = {
   pass: "text-go",
   fail: "text-danger",
   running: "text-amber",
-  pending: "text-faint",
+  pending: "text-mute",
   warn: "text-amber",
 };
 
@@ -33,7 +33,7 @@ export default function PipelineGate({
     <div className={`artifact overflow-hidden ${className}`}>
       <div className="flex items-center justify-between border-b border-faint px-5 py-3 font-mono text-xs">
         <span className="text-dust">{title}</span>
-        <span className="text-faint">{steps.length} checks</span>
+        <span className="text-mute">{steps.length} checks</span>
       </div>
 
       <div className="overflow-x-auto p-5 md:p-8">
@@ -50,7 +50,7 @@ export default function PipelineGate({
                       {step.label}
                     </div>
                     {step.detail && (
-                      <div className="mt-0.5 font-mono text-[10px] leading-tight text-faint">
+                      <div className="mt-0.5 font-mono text-[10px] leading-tight text-mute">
                         {step.detail}
                       </div>
                     )}

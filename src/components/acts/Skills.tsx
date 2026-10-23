@@ -15,8 +15,10 @@ export default function Skills() {
   return (
     <section id="case" className="relative px-5 py-20 md:px-12 md:py-28 lg:px-24">
       <SectionTitle
-        act="ACT III"
-        title="CASE"
+        n={4}
+        label="Skills"
+        title="The"
+        accent="toolkit."
         log="A suite is built in layers. So is a QA engineer. Here is my test manifest."
       />
 
@@ -30,7 +32,7 @@ export default function Skills() {
         >
           <div className="flex items-center justify-between border-b border-faint px-5 py-3 text-xs text-dust">
             <span className="font-mono">~/kawsar/test-manifest.yml</span>
-            <span className="text-faint">8 suites</span>
+            <span className="text-mute">8 suites</span>
           </div>
 
           <div className="p-5 md:p-9">
@@ -46,14 +48,14 @@ export default function Skills() {
                   className="border-l border-faint py-5 pl-5 first:pt-0 last:pb-0 md:pl-8"
                 >
                   <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1 font-mono text-sm md:text-base">
-                    <span className="w-6 select-none text-right text-xs text-faint">
+                    <span className="w-6 select-none text-right text-xs text-mute">
                       {current}
                     </span>
                     <span className="text-amber">{layer.directive.split(" ")[0]}</span>
                     <span className="text-bone">
                       {layer.directive.split(" ").slice(1).join(" ")}
                     </span>
-                    <span className="text-xs italic text-faint">
+                    <span className="text-xs italic text-mute">
                       # {layer.comment}
                     </span>
                   </div>

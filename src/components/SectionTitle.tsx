@@ -2,19 +2,24 @@
 
 import { motion } from "framer-motion";
 import LogLine from "@/components/LogLine";
+import { SECTION_COUNT } from "@/lib/data";
 
 /**
  * Act title card — small eyebrow, display heading, one-line log entry.
  * Subtle scroll reveal on heading; the log line types itself.
  */
 export default function SectionTitle({
-  act,
+  n,
+  label,
   title,
+  accent,
   log,
   align = "left",
 }: {
-  act: string;
+  n: number;
+  label: string;
   title: string;
+  accent: string;
   log: string;
   align?: "left" | "center";
 }) {
@@ -25,13 +30,14 @@ export default function SectionTitle({
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-80px" }}
         transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-        className={`mb-3 flex items-center gap-3 text-xs text-dust ${
-          align === "center" ? "justify-center" : ""
-        }`}
+        className="mb-3 flex items-center gap-3 text-xs text-dust"
       >
-        <span>{act}</span>
+        <span>{String(n).padStart(2, "0")}</span>
         <span className="h-px w-10 bg-faint" />
-        <span>{title}</span>
+        <span className="uppercase tracking-[0.1em]">{label}</span>
+        <span className="ml-auto">
+          [ {String(n).padStart(2, "0")} / {String(SECTION_COUNT).padStart(2, "0")} ]
+        </span>
       </motion.div>
 
       <motion.h2
@@ -41,8 +47,9 @@ export default function SectionTitle({
         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         className="display-xl text-[clamp(2.25rem,5vw,3.5rem)] text-bone"
       >
-        {title}
+        {title} <em className="text-amber">{accent}</em>
       </motion.h2>
+      <div className={`mt-3 w-24 border-b border-dashed border-faint ${align === "center" ? "mx-auto" : ""}`} />
 
       <LogLine
         text={log}

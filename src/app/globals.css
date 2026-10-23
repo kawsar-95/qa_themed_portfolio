@@ -8,6 +8,8 @@
   --color-bone: #e8e6e1;
   --color-dust: #9f9a8c;
   --color-faint: #3a3d44;
+  /* Secondary text: faint is a border color and too dim for type. */
+  --color-mute: #6b6e76;
   --color-amber: #e8a33d;
   --color-signal: #ffb454;
   --color-ember: #c75b26;
@@ -36,6 +38,7 @@
   --color-bone: #030712;
   --color-dust: #6b7280;
   --color-faint: #e5e7eb;
+  --color-mute: #8b92a0;
   --color-amber: #111827;
   --color-signal: #374151;
   --color-ember: #4b5563;
@@ -52,6 +55,7 @@
   --color-bone: #e8e6e1;
   --color-dust: #9f9a8c;
   --color-faint: #3a3d44;
+  --color-mute: #6b6e76;
   --color-amber: #e8a33d;
   --color-signal: #ffb454;
   --color-ember: #c75b26;

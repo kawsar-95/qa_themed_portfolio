@@ -41,10 +41,29 @@ export default function About() {
   return (
     <section id="plan" className="relative px-5 py-20 md:px-12 md:py-28 lg:px-24">
       <SectionTitle
-        act="ACT II"
-        title="PLAN"
+        n={1}
+        label="About"
+        title="QA with a"
+        accent="breaker's mindset."
         log="Every release has a test plan. This is the one that started mine."
       />
+
+      <dl className="mb-10 grid max-w-3xl grid-cols-[7rem_1fr] gap-x-4 gap-y-1 font-mono text-sm">
+        {[
+          ["name", "Nuruddin Kawsar"],
+          ["role", "QA Automation Engineer"],
+          ["company", "Shomvob Technologies Ltd."],
+          ["location", "Dhaka, Bangladesh"],
+          ["timezone", "GMT+6"],
+          ["status", "open to opportunities"],
+          ["stack", "Playwright · Cypress · Postman"],
+        ].map(([k, v]) => (
+          <div key={k} className="contents">
+            <dt className="text-dust">{k}</dt>
+            <dd className="text-bone">{v}</dd>
+          </div>
+        ))}
+      </dl>
 
       <motion.div
         initial={{ opacity: 0, y: 12 }}

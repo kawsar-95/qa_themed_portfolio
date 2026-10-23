@@ -21,9 +21,9 @@ export default function Pipeline() {
         <Hero />
         <Marquee />
         <About />
-        <Skills />
         <Experience />
         <Projects />
+        <Skills />
         <Interlude />
         <TerminalSection />
         <Contact />

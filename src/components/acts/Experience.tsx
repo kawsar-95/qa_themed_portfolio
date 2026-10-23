@@ -19,8 +19,10 @@ export default function Experience() {
   return (
     <section id="run" className="relative px-5 py-20 md:px-12 md:py-28 lg:px-24">
       <SectionTitle
-        act="ACT IV"
-        title="RUN"
+        n={2}
+        label="Work"
+        title="Where I've"
+        accent="shipped."
         log="Before a release reaches production, it survives staging. So did every role that got me here."
       />
 
@@ -46,7 +48,7 @@ export default function Experience() {
                   className={`absolute left-0 top-2.5 h-2 w-2 border border-void bg-current ${tone}`}
                 />
 
-                <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-faint">
+                <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-mute">
                   <span className={`font-mono ${tone}`}>{m.env}</span>
                   <span>·</span>
                   <span className="font-mono">{m.period}</span>

@@ -63,6 +63,18 @@ export default function PipelineNav() {
           qa<span className="text-amber">://</span>run
         </button>
 
+        <nav className="hidden items-center gap-5 text-xs md:flex">
+          {PIPELINE_STAGES.slice(1).map((s, i) => (
+            <button
+              key={s.id}
+              onClick={() => goTo(s.id)}
+              className={`transition-colors hover:text-amber ${active === s.id ? "text-amber" : "text-dust"}`}
+            >
+              <span className="text-mute">{String(i + 1).padStart(2, "0")}</span> {s.label}
+            </button>
+          ))}
+        </nav>
+
         <button
           onClick={toggleTheme}
           aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
