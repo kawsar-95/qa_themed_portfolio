@@ -37,7 +37,7 @@ export default function PipelineGate({
       </div>
 
       <div className="overflow-x-auto p-5 md:p-8">
-        <div className="flex min-w-max items-start gap-0">
+        <div className="flex min-w-max items-start justify-center gap-0">
           {steps.map((step, i) => {
             const last = i === steps.length - 1;
             const nextDone = !last && steps[i + 1].status === "pass";

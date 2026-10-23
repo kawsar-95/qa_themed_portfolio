@@ -24,18 +24,18 @@ export default function SectionTitle({
   align?: "left" | "center";
 }) {
   return (
-    <div className={`mb-12 md:mb-16 ${align === "center" ? "text-center" : ""}`}>
+    <div className={`mx-auto mb-12 max-w-5xl md:mb-16 ${align === "center" ? "text-center" : ""}`}>
       <motion.div
         initial={{ opacity: 0, y: 8 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-80px" }}
         transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-        className="mb-3 flex items-center gap-3 text-xs text-dust"
+        className={`mb-3 flex items-center gap-3 text-xs text-dust ${align === "center" ? "justify-center" : ""}`}
       >
         <span>{String(n).padStart(2, "0")}</span>
         <span className="h-px w-10 bg-faint" />
         <span className="uppercase tracking-[0.1em]">{label}</span>
-        <span className="ml-auto">
+        <span className={align === "center" ? "" : "ml-auto"}>
           [ {String(n).padStart(2, "0")} / {String(SECTION_COUNT).padStart(2, "0")} ]
         </span>
       </motion.div>
@@ -49,7 +49,7 @@ export default function SectionTitle({
       >
         {title} <em className="text-amber">{accent}</em>
       </motion.h2>
-      <div className={`mt-3 w-24 border-b border-dashed border-faint ${align === "center" ? "mx-auto" : ""}`} />
+      <div className={`mt-3 w-24 border-b border-dashed border-mute ${align === "center" ? "mx-auto" : ""}`} />
 
       <LogLine
         text={log}

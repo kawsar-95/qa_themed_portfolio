@@ -275,7 +275,7 @@ export default function TerminalSection() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-80px" }}
         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-        className="terminal-shell relative mx-auto max-w-4xl overflow-hidden border border-faint bg-carbon"
+        className="terminal-shell relative mx-auto max-w-5xl overflow-hidden border border-faint bg-carbon"
         onClick={() => inputRef.current?.focus()}
       >
         {/* title bar */}

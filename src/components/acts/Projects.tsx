@@ -158,12 +158,12 @@ export default function Projects() {
         log="Four platforms, four different ways to fail. Here's what I caught before anyone else did."
       />
 
-      <div className="mb-6 flex items-center gap-4 text-sm">
+      <div className="mx-auto mb-6 flex max-w-5xl items-center gap-4 text-sm">
         <span className="font-mono text-bone">Case studies</span>
         <span className="h-px flex-1 bg-faint" />
         <span className="text-dust">{CASE_STUDIES.length} platforms tested end to end</span>
       </div>
-      <div className="grid gap-5 md:grid-cols-2">
+      <div className="mx-auto grid max-w-5xl gap-5 md:grid-cols-2">
         {live.map((a, i) => (
           <BigCard key={a.id} a={a} i={i} featured />
         ))}
