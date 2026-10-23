@@ -53,7 +53,7 @@ const operatorMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "NURUDDIN KAWSAR — SQA Engineer | COVERAGE",
+  title: "Nuruddin Kawsar — SQA Engineer",
   description:
     "A cinematic test run in seven acts. Nuruddin Kawsar — SQA Engineer testing web, API and SaaS platforms from Dhaka, Bangladesh. Playwright, Cypress, Selenium, and the discipline of catching it before production does.",
   keywords: [
@@ -68,7 +68,7 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Nuruddin Kawsar", url: "https://nuruddinkawsar.me/" }],
   openGraph: {
-    title: "NURUDDIN KAWSAR — COVERAGE",
+    title: "Nuruddin Kawsar — COVERAGE",
     description:
       "Every release has a test plan. Scroll to execute. A cinematic QA experience in seven acts.",
     url: "https://nuruddinkawsar.me/",

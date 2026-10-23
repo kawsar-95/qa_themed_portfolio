@@ -4,7 +4,7 @@
 /* ------------------------------------------------------------------ */
 
 export const IDENTITY = {
-  name: "NURUDDIN KAWSAR",
+  name: "Nuruddin Kawsar",
   short: "KAWSAR",
   role: "SQA ENGINEER",
   subRole: "Manual & Automated Testing · Web, API & SaaS Platforms",
@@ -31,12 +31,16 @@ export const STATS = [
 
 export const PIPELINE_STAGES = [
   { id: "spec", label: "HOME" },
-  { id: "plan", label: "ABOUT" },
-  { id: "run", label: "WORK" },
-  { id: "report", label: "PROJECTS" },
-  { id: "case", label: "SKILLS" },
-  { id: "triage", label: "SHELL" },
-  { id: "signoff", label: "CONTACT" },
+  { id: "plan", label: "About" },
+  { id: "run", label: "Work" },
+  { id: "education", label: "Education" },
+  { id: "report", label: "Projects" },
+  { id: "stats", label: "Stats" },
+  { id: "case", label: "Skills" },
+  { id: "writing", label: "Writing" },
+  { id: "moments", label: "Moments" },
+  { id: "triage", label: "Shell" },
+  { id: "signoff", label: "Contact" },
 ] as const;
 
 /** Numbered sections after the hero. */
@@ -47,6 +51,7 @@ export const SECTION_COUNT = PIPELINE_STAGES.length - 1;
 /* ------------------------------------------------------------------ */
 
 export interface SkillLayer {
+  title: string;
   directive: string;
   comment: string;
   items: string[];
@@ -54,41 +59,49 @@ export interface SkillLayer {
 
 export const SKILL_LAYERS: SkillLayer[] = [
   {
+    title: "Automation",
     directive: "TEST --suite=automation",
     comment: "the tests that run themselves",
     items: ["Cypress", "Selenium", "Playwright"],
   },
   {
+    title: "API & Load",
     directive: "TEST --suite=api",
     comment: "what the UI can't catch",
     items: ["Postman", "K6", "JMeter"],
   },
   {
+    title: "CI/CD",
     directive: "RUN --pipeline=ci-cd",
     comment: "gate every merge before it ships",
     items: ["GitHub Actions", "Jenkins"],
   },
   {
+    title: "Languages",
     directive: "USE --lang=core",
     comment: "the code underneath the test code",
     items: ["JavaScript", "Java"],
   },
   {
+    title: "Testing Types",
     directive: "COVER --types=all",
     comment: "every angle a release can fail from",
     items: ["Functional", "Regression", "Performance", "API", "Security", "Smoke", "UAT"],
   },
   {
+    title: "Tracking & Tooling",
     directive: "TRACK --tooling=qa",
     comment: "where the work gets logged and proven",
     items: ["JIRA", "TestRail", "Trello", "Docker", "Git / GitHub / Bitbucket"],
   },
   {
+    title: "Process",
     directive: "PLAN --method=agile",
     comment: "how a QA team actually ships",
     items: ["Scrum", "Kanban"],
   },
   {
+    title: "Agile Doctrine",
     directive: "APPLY --doctrine=agile-testing",
     comment: "Crispin & Gregory — the whole-team playbook",
     items: [
@@ -193,16 +206,30 @@ export const MISSIONS: Mission[] = [
     log: [],
     tools: ["JIRA", "Postman"],
   },
+];
+
+export interface Education {
+  period: string;
+  degree: string;
+  school: string;
+  place: string;
+  note?: string;
+}
+
+export const EDUCATION: Education[] = [
   {
-    env: "ACADEMY",
-    envTone: "dev",
-    role: "B.Sc. in Computer Science and Engineering",
-    org: "Port City International University",
     period: "2016 — 2020",
-    brief: "The origin commit — computer science fundamentals, Chittagong.",
-    log: [],
+    degree: "B.Sc. in Computer Science and Engineering",
+    school: "Port City International University",
+    place: "Chittagong",
+    note: "Computer science fundamentals.",
   },
 ];
+
+/** Empty on purpose — each section shows an empty state until filled. */
+export const ACHIEVEMENTS: { period: string; title: string; detail: string }[] = [];
+export const NOTES: { date: string; title: string; summary: string; url: string; tags: string[] }[] = [];
+export const MOMENTS: { title: string; place: string; year: string; image: string }[] = [];
 
 /* ------------------------------------------------------------------ */
 /*  PROJECTS — case studies                                            */
